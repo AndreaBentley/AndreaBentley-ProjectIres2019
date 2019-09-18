@@ -1,3 +1,8 @@
+var winners = new Array();
+
+
+
+
 function redirect() {
   location.replace("http://localhost:3000/index2.html")
 }
@@ -46,17 +51,54 @@ function update(a) {
     .then(res => console.log("Player " + Player.playernumber + " Added!!!"));
 }
 
+//DELETE
+function deleteGame(id) {
+
+    var txt;
+    var r = confirm("Are you sure you want to delete this entry from the hall of fame?");
+    if (r == true) {
+        axios.delete('http://localhost:8080/players/playernumber/'+id, id)
+            .then(response => {
+
+                var table = document.getElementById("myTable")
+                var rows = table.rows.length;
+                var n = 0;
+                for(var i = 0; i < rows ;i++ ){
+                    console.log(table.rows[i].id);
+                    if(id == table.rows[i].id){
+                        this.n = i;
+                        break;
+                    }
+                }
+                console.log(id);
+                console.log(n);
+                console.log("THE TRUTH HAS BEEN DESTROYED!");
+                //table.deleteRow(n);
+                alert("Game record successfully deleted.");
+                 })
+            .catch(error => {
+                console.log("FOILED?! HOW THIS BE?!?!?!");
+                alert("The game record does not exist.");
+        });
+    }
+
+}
 
 function createTableOfWinners(winners) {
+
+    this.winners = winners;
+
     var x = document.getElementById("myTable");
+
     var rows = winners.length;
     var header = x.createTHead();
     var row = header.insertRow(0);
     var cell = row.insertCell(0);
     cell.innerHTML = "id";
     cell = row.insertCell(1);
-    cell = row.insertCell(1);
     cell.innerHTML = "playername";
+    cell = row.insertCell(2);
+    cell.innerHTML = "Delete Game";
 
     for(var r = 1; r <= rows; r++){
         row = header.insertRow(r);
@@ -64,6 +106,15 @@ function createTableOfWinners(winners) {
         cell.innerHTML = winners[r-1].id;
         cell = row.insertCell(1);
         cell.innerHTML = winners[r-1].playernumber;
+        cell = row.insertCell(2);
+        var y = document.createElement('button');
+        y.innerHTML = "Delete";
+        //usare il let per creare una variabile fresca "rr" per ogni bottone
+        let rr = r;
+        y.onclick = () => {
+             deleteGame(winners[rr-1].id);
+        }
+        cell.appendChild(y);
     }
 
 }
@@ -71,6 +122,8 @@ function createTableOfWinners(winners) {
 
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 var myGamePiece;
 var myBackground;
