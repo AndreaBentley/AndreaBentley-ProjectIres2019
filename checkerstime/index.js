@@ -64,16 +64,19 @@ function deleteGame(id) {
                 var rows = table.rows.length;
                 var n = 0;
                 for(var i = 0; i < rows ;i++ ){
-                    console.log(table.rows[i].id);
-                    if(id == table.rows[i].id){
-                        this.n = i;
+                    //console.log(i);
+                    //console.log(table.rows[i].cells[0].innerHTML);
+                    //console.log(id);
+                    if(id == table.rows[i].cells[0].innerHTML){
+                        n = i;
+
                         break;
                     }
                 }
-                console.log(id);
-                console.log(n);
+                //console.log(id);
+                //console.log(n);
                 console.log("THE TRUTH HAS BEEN DESTROYED!");
-                //table.deleteRow(n);
+                table.deleteRow(n);
                 alert("Game record successfully deleted.");
                  })
             .catch(error => {
